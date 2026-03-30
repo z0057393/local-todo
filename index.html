@@ -457,6 +457,83 @@
     }
     .btn-save:hover { background: #9182f7; }
 
+    /* Subtasks in card */
+    .card-subtasks {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .subtask-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #aaaabe;
+      cursor: pointer;
+      padding: 5px 6px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .subtask-row:hover { background: #22222e; }
+    .subtask-row input[type="checkbox"] {
+      accent-color: #7c6df5;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .subtask-row.done span { text-decoration: line-through; color: #55556a; }
+
+    /* Subtasks in modal */
+    .subtask-add-row {
+      display: flex;
+      gap: 8px;
+    }
+    .subtask-add-row input { flex: 1; }
+    .btn-add-subtask {
+      background: #2a2a36;
+      border: 1px solid #3e3e52;
+      border-radius: 8px;
+      color: #7c6df5;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      transition: all 0.15s;
+    }
+    .btn-add-subtask:hover { background: #7c6df5; color: #fff; border-color: #7c6df5; }
+
+    .modal-subtask-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .modal-subtask-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #1c1c24;
+      border: 1px solid #2e2e3a;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.88rem;
+    }
+    .modal-subtask-item input[type="checkbox"] { accent-color: #7c6df5; cursor: pointer; flex-shrink: 0; }
+    .modal-subtask-item span { flex: 1; color: #e2e2e6; }
+    .modal-subtask-item.done span { text-decoration: line-through; color: #55556a; }
+    .modal-subtask-item button {
+      background: none;
+      border: none;
+      color: #55556a;
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .modal-subtask-item button:hover { color: #e05a5a; }
+
     /* Lightbox */
     .lightbox {
       position: fixed;
@@ -534,6 +611,15 @@
     </div>
 
     <div>
+      <label>Sous-tâches</label>
+      <div class="subtask-add-row">
+        <input type="text" id="mSubtaskInput" placeholder="Titre de la sous-tâche…" autocomplete="off" />
+        <button type="button" class="btn-add-subtask" id="addSubtaskBtn">+</button>
+      </div>
+      <div id="modalSubtasks"></div>
+    </div>
+
+    <div>
       <label>Images</label>
       <div class="upload-zone" id="uploadZone">
         <span>🖼</span>
@@ -561,6 +647,7 @@
   let filter = 'toutes';
   let editingId = null;        // null = création, number = édition
   let modalImages = [];        // [{dataUrl, name}] en cours d'édition
+  let modalSubtasks = [];      // [{id, title, done}] en cours d'édition
 
   /* ---- Storage ---- */
   function load() {
@@ -570,15 +657,22 @@
   function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(todos)); }
 
   /* ---- CRUD ---- */
-  function upsertTodo({ title, priority, description, images }) {
+  function upsertTodo({ title, priority, description, images, subtasks }) {
     if (editingId !== null) {
       const t = todos.find(t => t.id === editingId);
-      if (t) { t.title = title; t.priority = priority; t.description = description; t.images = images; }
+      if (t) { t.title = title; t.priority = priority; t.description = description; t.images = images; t.subtasks = subtasks; }
     } else {
-      todos.unshift({ id: Date.now(), title, priority, description, images, done: false, createdAt: new Date().toISOString() });
+      todos.unshift({ id: Date.now(), title, priority, description, images, subtasks, done: false, createdAt: new Date().toISOString() });
     }
     save();
     render();
+  }
+
+  function toggleSubtask(todoId, subtaskId) {
+    const t = todos.find(t => t.id === todoId);
+    if (!t || !t.subtasks) return;
+    const s = t.subtasks.find(s => s.id === subtaskId);
+    if (s) { s.done = !s.done; save(); render(); }
   }
 
   function toggleTodo(id) {
@@ -608,11 +702,14 @@
   function openModalNew(prefillTitle = '') {
     editingId = null;
     modalImages = [];
+    modalSubtasks = [];
     document.getElementById('modalTitle').textContent = 'Nouvelle tâche';
     document.getElementById('mTitle').value = prefillTitle;
     document.getElementById('mPriority').value = 'normale';
     document.getElementById('mDesc').value = '';
+    document.getElementById('mSubtaskInput').value = '';
     renderModalImages();
+    renderModalSubtasks();
     document.getElementById('modalOverlay').classList.remove('hidden');
     document.getElementById('mTitle').focus();
   }
@@ -622,11 +719,14 @@
     if (!t) return;
     editingId = id;
     modalImages = (t.images || []).map(i => ({ ...i }));
+    modalSubtasks = (t.subtasks || []).map(s => ({ ...s }));
     document.getElementById('modalTitle').textContent = 'Modifier la tâche';
     document.getElementById('mTitle').value = t.title;
     document.getElementById('mPriority').value = t.priority;
     document.getElementById('mDesc').value = t.description || '';
+    document.getElementById('mSubtaskInput').value = '';
     renderModalImages();
+    renderModalSubtasks();
     document.getElementById('modalOverlay').classList.remove('hidden');
     document.getElementById('mTitle').focus();
   }
@@ -642,7 +742,8 @@
       title,
       priority: document.getElementById('mPriority').value,
       description: document.getElementById('mDesc').value.trim(),
-      images: [...modalImages]
+      images: [...modalImages],
+      subtasks: [...modalSubtasks]
     });
     closeModal();
   }
@@ -675,6 +776,39 @@
     renderModalImages();
   }
 
+  /* ---- Subtask helpers ---- */
+  function addModalSubtask() {
+    const input = document.getElementById('mSubtaskInput');
+    const title = input.value.trim();
+    if (!title) { input.focus(); return; }
+    modalSubtasks.push({ id: Date.now() + modalSubtasks.length, title, done: false });
+    input.value = '';
+    input.focus();
+    renderModalSubtasks();
+  }
+
+  function removeModalSubtask(idx) {
+    modalSubtasks.splice(idx, 1);
+    renderModalSubtasks();
+  }
+
+  function toggleModalSubtask(idx) {
+    modalSubtasks[idx].done = !modalSubtasks[idx].done;
+    renderModalSubtasks();
+  }
+
+  function renderModalSubtasks() {
+    const el = document.getElementById('modalSubtasks');
+    if (!modalSubtasks.length) { el.innerHTML = ''; return; }
+    el.innerHTML = `<ul class="modal-subtask-list">${modalSubtasks.map((s, i) => `
+      <li class="modal-subtask-item ${s.done ? 'done' : ''}">
+        <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleModalSubtask(${i})" />
+        <span>${esc(s.title)}</span>
+        <button onclick="removeModalSubtask(${i})" title="Supprimer">✕</button>
+      </li>`).join('')}
+    </ul>`;
+  }
+
   /* ---- Render ---- */
   function formatDate(iso) {
     return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
@@ -701,17 +835,26 @@
     el.innerHTML = list.map(t => {
       const hasDesc  = t.description && t.description.trim();
       const hasImgs  = t.images && t.images.length > 0;
-      const hasExtra = hasDesc || hasImgs;
+      const hasSubs  = t.subtasks && t.subtasks.length > 0;
+      const hasExtra = hasDesc || hasImgs || hasSubs;
+      const subsDone = hasSubs ? t.subtasks.filter(s => s.done).length : 0;
 
       const hintsHTML = hasExtra ? `
         <span class="extras-hint">
           ${hasDesc  ? `<span title="Description">📝</span>` : ''}
+          ${hasSubs  ? `<span title="${subsDone}/${t.subtasks.length} sous-tâches">${subsDone}/${t.subtasks.length} ✓</span>` : ''}
           ${hasImgs  ? `<span title="${t.images.length} image${t.images.length>1?'s':''}">${t.images.length} 🖼</span>` : ''}
         </span>` : '';
 
       const bodyHTML = hasExtra ? `
         <div class="card-body">
           ${hasDesc ? `<p class="description">${esc(t.description)}</p>` : ''}
+          ${hasSubs ? `<div class="card-subtasks">${t.subtasks.map(s => `
+            <label class="subtask-row ${s.done ? 'done' : ''}">
+              <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleSubtask(${t.id}, ${s.id})" onclick="event.stopPropagation()" />
+              <span>${esc(s.title)}</span>
+            </label>`).join('')}
+          </div>` : ''}
           ${hasImgs ? `<div class="images-grid">${t.images.map((img,i) => `
             <div class="img-wrapper">
               <img src="${img.dataUrl}" alt="${esc(img.name)}" onclick="openLightbox('${esc(img.dataUrl)}')" />
@@ -780,6 +923,10 @@
   document.getElementById('modalClose').addEventListener('click', closeModal);
   document.getElementById('modalCancel').addEventListener('click', closeModal);
   document.getElementById('modalSave').addEventListener('click', saveModal);
+  document.getElementById('addSubtaskBtn').addEventListener('click', addModalSubtask);
+  document.getElementById('mSubtaskInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addModalSubtask(); }
+  });
 
   document.getElementById('modalOverlay').addEventListener('click', e => {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
