@@ -19,100 +19,68 @@
 
     .container { width: 100%; max-width: 620px; }
 
-    h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 24px;
-      color: #fff;
-    }
+    h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 24px; color: #fff; }
     h1 span { color: #7c6df5; }
 
-    /* Top bar */
-    .topbar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
+    /* ── Top bar ── */
+    .topbar { display: flex; gap: 8px; margin-bottom: 20px; }
     .topbar input {
-      flex: 1;
-      background: #1c1c24;
-      border: 1px solid #2e2e3a;
-      border-radius: 10px;
-      color: #e2e2e6;
-      font-size: 0.95rem;
-      padding: 10px 14px;
-      outline: none;
+      flex: 1; background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 10px;
+      color: #e2e2e6; font-size: 0.95rem; padding: 10px 14px; outline: none;
       transition: border-color 0.2s;
     }
     .topbar input:focus { border-color: #7c6df5; }
     .topbar input::placeholder { color: #555566; }
     .btn-add {
-      background: #7c6df5;
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 10px 18px;
-      white-space: nowrap;
-      transition: background 0.2s;
+      background: #7c6df5; border: none; border-radius: 10px; color: #fff;
+      cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 10px 18px;
+      white-space: nowrap; transition: background 0.2s;
     }
     .btn-add:hover { background: #9182f7; }
-
-    /* Filters */
-    .filters {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+    .btn-shortcuts {
+      background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 10px;
+      color: #7777aa; cursor: pointer; font-size: 1rem; padding: 10px 12px;
+      transition: all 0.15s; flex-shrink: 0;
     }
+    .btn-shortcuts:hover { border-color: #7c6df5; color: #7c6df5; }
+
+    /* ── Filters ── */
+    .filters { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
     .filters button {
-      background: #1c1c24;
-      border: 1px solid #2e2e3a;
-      border-radius: 8px;
-      color: #aaaabc;
-      cursor: pointer;
-      font-size: 0.8rem;
-      padding: 5px 12px;
+      background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 8px;
+      color: #aaaabc; cursor: pointer; font-size: 0.8rem; padding: 5px 12px;
       transition: all 0.15s;
     }
-    .filters button.active, .filters button:hover {
-      background: #7c6df5;
-      border-color: #7c6df5;
-      color: #fff;
-    }
+    .filters button.active, .filters button:hover { background: #7c6df5; border-color: #7c6df5; color: #fff; }
 
-    /* Stats */
+    /* ── Sort bar ── */
+    .sort-bar {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 16px; font-size: 0.78rem; color: #55556a;
+    }
+    .sort-bar button {
+      background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 6px;
+      color: #aaaabc; cursor: pointer; font-size: 0.75rem; padding: 3px 10px;
+      transition: all 0.15s;
+    }
+    .sort-bar button.active, .sort-bar button:hover { background: #7c6df5; border-color: #7c6df5; color: #fff; }
+
+    /* ── Stats ── */
     .stats {
-      font-size: 0.78rem;
-      color: #55556a;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      font-size: 0.78rem; color: #55556a; margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .stats button {
-      background: none;
-      border: none;
-      color: #55556a;
-      cursor: pointer;
-      font-size: 0.78rem;
-      text-decoration: underline;
+      background: none; border: none; color: #55556a; cursor: pointer;
+      font-size: 0.78rem; text-decoration: underline;
     }
     .stats button:hover { color: #e05a5a; }
 
-    /* Todo list */
+    /* ── Todo list ── */
     .todo-list { display: flex; flex-direction: column; gap: 10px; }
-
     .todo-card {
-      background: #1c1c24;
-      border: 1px solid #2e2e3a;
-      border-radius: 14px;
-      overflow: hidden;
-      animation: fadeIn 0.15s ease;
-      transition: border-color 0.2s;
+      background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 14px;
+      overflow: hidden; animation: fadeIn 0.15s ease; transition: border-color 0.2s;
     }
     .todo-card:hover { border-color: #3e3e52; }
     .todo-card.done { opacity: 0.45; }
@@ -122,207 +90,105 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Card header — always visible */
     .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      cursor: pointer;
-      user-select: none;
+      display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+      cursor: pointer; user-select: none;
     }
-
     .card-header input[type="checkbox"] {
-      accent-color: #7c6df5;
-      cursor: pointer;
-      height: 17px;
-      width: 17px;
-      flex-shrink: 0;
+      accent-color: #7c6df5; cursor: pointer; height: 17px; width: 17px; flex-shrink: 0;
     }
-
-    .card-title {
-      flex: 1;
-      font-size: 0.95rem;
-      font-weight: 500;
-      word-break: break-word;
-    }
+    .card-title { flex: 1; font-size: 0.95rem; font-weight: 500; word-break: break-word; }
     .todo-card.done .card-title { text-decoration: line-through; }
 
     .priority-badge {
-      border-radius: 6px;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      padding: 2px 7px;
-      text-transform: uppercase;
-      flex-shrink: 0;
+      border-radius: 6px; font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.3px; padding: 2px 7px; text-transform: uppercase; flex-shrink: 0;
     }
     .priority-badge.haute   { background: #3d1c1c; color: #e05a5a; }
     .priority-badge.normale { background: #1c2a3a; color: #5a9ae0; }
     .priority-badge.basse   { background: #1c2e1c; color: #5ae07a; }
 
-    .card-date {
-      font-size: 0.7rem;
-      color: #44445a;
-      flex-shrink: 0;
-    }
-
-    .card-icons {
-      display: flex;
-      gap: 2px;
-      flex-shrink: 0;
-    }
+    .card-date { font-size: 0.7rem; color: #44445a; flex-shrink: 0; }
+    .card-icons { display: flex; gap: 2px; flex-shrink: 0; }
     .icon-btn {
-      background: none;
-      border: none;
-      color: #44445a;
-      cursor: pointer;
-      font-size: 0.85rem;
-      padding: 3px 5px;
-      border-radius: 6px;
-      transition: color 0.15s, background 0.15s;
-      line-height: 1;
+      background: none; border: none; color: #44445a; cursor: pointer;
+      font-size: 0.85rem; padding: 3px 5px; border-radius: 6px;
+      transition: color 0.15s, background 0.15s; line-height: 1;
     }
     .icon-btn:hover { color: #aaaacc; background: #2a2a36; }
     .icon-btn.delete:hover { color: #e05a5a; background: #2e1c1c; }
 
-    .expand-arrow {
-      font-size: 0.7rem;
-      color: #44445a;
-      transition: transform 0.2s;
-      flex-shrink: 0;
-    }
+    .expand-arrow { font-size: 0.7rem; color: #44445a; transition: transform 0.2s; flex-shrink: 0; }
     .todo-card.expanded .expand-arrow { transform: rotate(180deg); }
 
-    /* Has-extras indicators */
-    .extras-hint {
-      display: flex;
-      gap: 6px;
-      font-size: 0.68rem;
-      color: #55556a;
-    }
+    .extras-hint { display: flex; gap: 6px; font-size: 0.68rem; color: #55556a; }
 
-    /* Card body — collapsible */
-    .card-body {
-      display: none;
-      padding: 0 14px 14px 14px;
-      border-top: 1px solid #2e2e3a;
-      margin-top: 0;
-    }
+    /* ── Card body ── */
+    .card-body { display: none; padding: 0 14px 14px; border-top: 1px solid #2e2e3a; }
     .todo-card.expanded .card-body { display: block; }
-
     .card-body .description {
-      font-size: 0.88rem;
-      color: #aaaabe;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-word;
-      padding-top: 12px;
+      font-size: 0.88rem; color: #aaaabe; line-height: 1.6;
+      white-space: pre-wrap; word-break: break-word; padding-top: 12px;
     }
 
-    /* Images grid */
-    .images-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+    /* ── Subtasks in card ── */
+    .card-subtasks { display: flex; flex-direction: column; gap: 2px; }
+    .card-body > .card-subtasks { margin-top: 12px; }
+
+    .subtask-row {
+      display: flex; align-items: center; gap: 8px; font-size: 0.85rem;
+      color: #aaaabe; cursor: pointer; padding: 4px 6px; border-radius: 6px;
+      transition: background 0.15s;
     }
+    .subtask-row:hover { background: #22222e; }
+    .subtask-row input[type="checkbox"] { accent-color: #7c6df5; cursor: pointer; flex-shrink: 0; }
+    .subtask-row.done > span { text-decoration: line-through; color: #55556a; }
+
+    /* ── Images grid ── */
+    .images-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
     .img-wrapper {
-      position: relative;
-      width: 90px;
-      height: 90px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #2e2e3a;
-      flex-shrink: 0;
+      position: relative; width: 90px; height: 90px; border-radius: 8px;
+      overflow: hidden; border: 1px solid #2e2e3a; flex-shrink: 0;
     }
     .img-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      cursor: pointer;
-      transition: opacity 0.15s;
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      cursor: pointer; transition: opacity 0.15s;
     }
     .img-wrapper img:hover { opacity: 0.8; }
     .img-remove {
-      position: absolute;
-      top: 3px;
-      right: 3px;
-      background: rgba(0,0,0,0.7);
-      border: none;
-      border-radius: 50%;
-      color: #fff;
-      cursor: pointer;
-      font-size: 0.65rem;
-      height: 18px;
-      width: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.15s;
+      position: absolute; top: 3px; right: 3px; background: rgba(0,0,0,0.7);
+      border: none; border-radius: 50%; color: #fff; cursor: pointer;
+      font-size: 0.65rem; height: 18px; width: 18px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.15s;
     }
     .img-wrapper:hover .img-remove { opacity: 1; }
 
-    /* Empty */
-    .empty {
-      text-align: center;
-      color: #44445a;
-      font-size: 0.9rem;
-      padding: 40px 0;
-    }
+    /* ── Empty ── */
+    .empty { text-align: center; color: #44445a; font-size: 0.9rem; padding: 40px 0; }
 
-    /* Bottom actions */
-    .actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 24px;
-      flex-wrap: wrap;
-    }
+    /* ── Actions ── */
+    .actions { display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
     .actions button {
-      background: #1c1c24;
-      border: 1px solid #2e2e3a;
-      border-radius: 8px;
-      color: #aaaabc;
-      cursor: pointer;
-      font-size: 0.8rem;
-      padding: 7px 14px;
-      transition: all 0.15s;
+      background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 8px;
+      color: #aaaabc; cursor: pointer; font-size: 0.8rem; padding: 7px 14px; transition: all 0.15s;
     }
     .actions button:hover { border-color: #7c6df5; color: #7c6df5; }
 
-    /* ============ MODAL ============ */
+    /* ══ MODAL ══ */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      padding: 16px;
-      backdrop-filter: blur(3px);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; padding: 16px; backdrop-filter: blur(3px);
       animation: overlayIn 0.15s ease;
     }
-    @keyframes overlayIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
+    @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
     .modal-overlay.hidden { display: none; }
 
     .modal {
-      background: #18181f;
-      border: 1px solid #2e2e3a;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 540px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      background: #18181f; border: 1px solid #2e2e3a; border-radius: 16px;
+      width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px;
       animation: modalIn 0.15s ease;
     }
     @keyframes modalIn {
@@ -330,269 +196,129 @@
       to   { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .modal-header h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #fff;
-    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; }
+    .modal-header h2 { font-size: 1rem; font-weight: 600; color: #fff; }
     .modal-close {
-      background: none;
-      border: none;
-      color: #55556a;
-      cursor: pointer;
-      font-size: 1.2rem;
-      padding: 2px 6px;
-      border-radius: 6px;
-      transition: color 0.15s;
+      background: none; border: none; color: #55556a; cursor: pointer;
+      font-size: 1.2rem; padding: 2px 6px; border-radius: 6px; transition: color 0.15s;
     }
     .modal-close:hover { color: #e2e2e6; }
 
     .modal label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #7777aa;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      display: block; font-size: 0.78rem; font-weight: 600; color: #7777aa;
+      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;
     }
-
-    .modal input[type="text"],
-    .modal textarea,
-    .modal select {
-      width: 100%;
-      background: #1c1c24;
-      border: 1px solid #2e2e3a;
-      border-radius: 10px;
-      color: #e2e2e6;
-      font-family: inherit;
-      font-size: 0.93rem;
-      padding: 10px 12px;
-      outline: none;
-      transition: border-color 0.2s;
-      resize: vertical;
+    .modal input[type="text"], .modal textarea, .modal select {
+      width: 100%; background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 10px;
+      color: #e2e2e6; font-family: inherit; font-size: 0.93rem; padding: 10px 12px;
+      outline: none; transition: border-color 0.2s; resize: vertical;
     }
-    .modal input[type="text"]:focus,
-    .modal textarea:focus,
-    .modal select:focus { border-color: #7c6df5; }
+    .modal input[type="text"]:focus, .modal textarea:focus, .modal select:focus { border-color: #7c6df5; }
     .modal textarea { min-height: 90px; }
 
-    /* Image upload zone */
+    /* ── Subtasks in modal ── */
+    .subtask-add-row { display: flex; gap: 8px; }
+    .subtask-add-row input { flex: 1; }
+    .btn-add-subtask {
+      background: #2a2a36; border: 1px solid #3e3e52; border-radius: 8px;
+      color: #7c6df5; cursor: pointer; font-size: 1.1rem; font-weight: 700;
+      padding: 6px 14px; transition: all 0.15s;
+    }
+    .btn-add-subtask:hover { background: #7c6df5; color: #fff; border-color: #7c6df5; }
+
+    .modal-subtask-item {
+      display: flex; align-items: center; gap: 8px; background: #1c1c24;
+      border: 1px solid #2e2e3a; border-radius: 8px; padding: 6px 10px;
+      font-size: 0.88rem; margin-top: 4px;
+    }
+    .modal-subtask-item input[type="checkbox"] { accent-color: #7c6df5; cursor: pointer; flex-shrink: 0; }
+    .modal-subtask-item > span { flex: 1; color: #e2e2e6; }
+    .modal-subtask-item.done > span { text-decoration: line-through; color: #55556a; }
+    .modal-subtask-item button {
+      background: none; border: none; color: #55556a; cursor: pointer;
+      font-size: 0.8rem; padding: 2px 5px; border-radius: 4px; transition: color 0.15s;
+    }
+    .modal-subtask-item .btn-add-child:hover { color: #7c6df5; }
+    .modal-subtask-item .btn-remove:hover { color: #e05a5a; }
+
+    .modal-subtask-addinput { display: flex; gap: 6px; margin-top: 4px; margin-bottom: 2px; }
+    .modal-subtask-addinput input {
+      flex: 1; background: #1c1c24; border: 1px solid #3e3e52; border-radius: 8px;
+      color: #e2e2e6; font-family: inherit; font-size: 0.85rem; padding: 6px 10px; outline: none;
+    }
+    .modal-subtask-addinput input:focus { border-color: #7c6df5; }
+    .modal-subtask-addinput button {
+      background: none; border: 1px solid #3e3e52; border-radius: 6px;
+      color: #7c6df5; cursor: pointer; font-size: 0.85rem; padding: 4px 8px; transition: all 0.15s;
+    }
+    .modal-subtask-addinput button:hover { background: #7c6df5; color: #fff; border-color: #7c6df5; }
+
+    /* ── Upload zone ── */
     .upload-zone {
-      border: 2px dashed #2e2e3a;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      font-size: 0.85rem;
-      color: #55556a;
+      border: 2px dashed #2e2e3a; border-radius: 10px; padding: 20px;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      font-size: 0.85rem; color: #55556a;
     }
     .upload-zone:hover, .upload-zone.drag { border-color: #7c6df5; background: #1e1e2a; color: #aaaacc; }
     .upload-zone span { display: block; font-size: 1.4rem; margin-bottom: 4px; }
 
-    /* Preview zone in modal */
-    .modal-images {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .modal-images { display: flex; flex-wrap: wrap; gap: 8px; }
     .modal-img-wrap {
-      position: relative;
-      width: 80px;
-      height: 80px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #2e2e3a;
+      position: relative; width: 80px; height: 80px; border-radius: 8px;
+      overflow: hidden; border: 1px solid #2e2e3a;
     }
-    .modal-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .modal-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .modal-img-wrap button {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      border: none;
-      color: #e05a5a;
-      cursor: pointer;
-      font-size: 1rem;
-      opacity: 0;
-      transition: opacity 0.15s;
+      position: absolute; inset: 0; background: rgba(0,0,0,0.55); border: none;
+      color: #e05a5a; cursor: pointer; font-size: 1rem; opacity: 0; transition: opacity 0.15s;
     }
     .modal-img-wrap:hover button { opacity: 1; }
 
-    .modal-footer {
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
-    }
+    .modal-footer { display: flex; gap: 8px; justify-content: flex-end; }
     .btn-cancel {
-      background: #1c1c24;
-      border: 1px solid #2e2e3a;
-      border-radius: 8px;
-      color: #aaaabc;
-      cursor: pointer;
-      font-size: 0.9rem;
-      padding: 9px 18px;
-      transition: all 0.15s;
+      background: #1c1c24; border: 1px solid #2e2e3a; border-radius: 8px;
+      color: #aaaabc; cursor: pointer; font-size: 0.9rem; padding: 9px 18px; transition: all 0.15s;
     }
     .btn-cancel:hover { border-color: #55556a; color: #e2e2e6; }
     .btn-save {
-      background: #7c6df5;
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 9px 22px;
-      transition: background 0.2s;
+      background: #7c6df5; border: none; border-radius: 8px; color: #fff;
+      cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 9px 22px; transition: background 0.2s;
     }
     .btn-save:hover { background: #9182f7; }
 
-    /* Subtasks in card */
-    .card-subtasks {
-      margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .subtask-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      color: #aaaabe;
-      cursor: pointer;
-      padding: 5px 6px;
-      border-radius: 6px;
-      transition: background 0.15s;
-    }
-    .subtask-row:hover { background: #22222e; }
-    .subtask-row input[type="checkbox"] {
-      accent-color: #7c6df5;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .subtask-row.done span { text-decoration: line-through; color: #55556a; }
-
-    /* Subtasks in modal */
-    .subtask-add-row {
-      display: flex;
-      gap: 8px;
-    }
-    .subtask-add-row input { flex: 1; }
-    .btn-add-subtask {
-      background: #2a2a36;
-      border: 1px solid #3e3e52;
-      border-radius: 8px;
-      color: #7c6df5;
-      cursor: pointer;
-      font-size: 1.1rem;
-      font-weight: 700;
-      padding: 6px 14px;
-      transition: all 0.15s;
-    }
-    .btn-add-subtask:hover { background: #7c6df5; color: #fff; border-color: #7c6df5; }
-
-    .modal-subtask-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-top: 8px;
-    }
-    .modal-subtask-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #1c1c24;
-      border: 1px solid #2e2e3a;
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 0.88rem;
-    }
-    .modal-subtask-item input[type="checkbox"] { accent-color: #7c6df5; cursor: pointer; flex-shrink: 0; }
-    .modal-subtask-item span { flex: 1; color: #e2e2e6; }
-    .modal-subtask-item.done span { text-decoration: line-through; color: #55556a; }
-    .modal-subtask-item button {
-      background: none;
-      border: none;
-      color: #55556a;
-      cursor: pointer;
-      font-size: 0.8rem;
-      padding: 2px 5px;
-      border-radius: 4px;
-      transition: color 0.15s;
-    }
-    .modal-subtask-item button:hover { color: #e05a5a; }
-    .btn-add-child {
-      background: none;
-      border: none;
-      color: #44445a;
-      cursor: pointer;
-      font-size: 0.8rem;
-      padding: 2px 5px;
-      border-radius: 4px;
-      transition: color 0.15s;
-    }
-    .btn-add-child:hover { color: #7c6df5; }
-
-    .modal-subtask-addinput {
-      display: flex;
-      gap: 6px;
-      margin-top: 4px;
-      margin-bottom: 4px;
-    }
-    .modal-subtask-addinput input {
-      flex: 1;
-      background: #1c1c24;
-      border: 1px solid #3e3e52;
-      border-radius: 8px;
-      color: #e2e2e6;
-      font-family: inherit;
-      font-size: 0.85rem;
-      padding: 6px 10px;
-      outline: none;
-    }
-    .modal-subtask-addinput input:focus { border-color: #7c6df5; }
-    .modal-subtask-addinput button {
-      background: none;
-      border: 1px solid #3e3e52;
-      border-radius: 6px;
-      color: #7c6df5;
-      cursor: pointer;
-      font-size: 0.85rem;
-      padding: 4px 8px;
-      transition: all 0.15s;
-    }
-    .modal-subtask-addinput button:hover { background: #7c6df5; color: #fff; border-color: #7c6df5; }
-
-    /* Lightbox */
+    /* ── Lightbox ── */
     .lightbox {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      cursor: zoom-out;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+      display: flex; align-items: center; justify-content: center; z-index: 200; cursor: zoom-out;
     }
     .lightbox.hidden { display: none; }
     .lightbox img {
-      max-width: 92vw;
-      max-height: 88vh;
-      border-radius: 8px;
-      object-fit: contain;
-      box-shadow: 0 8px 48px rgba(0,0,0,0.8);
+      max-width: 92vw; max-height: 88vh; border-radius: 8px;
+      object-fit: contain; box-shadow: 0 8px 48px rgba(0,0,0,0.8);
+    }
+
+    /* ── Shortcuts panel ── */
+    .shortcuts-panel {
+      position: fixed; bottom: 24px; right: 24px; background: #18181f;
+      border: 1px solid #3e3e52; border-radius: 14px; padding: 16px 20px;
+      z-index: 300; min-width: 260px; box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      animation: modalIn 0.15s ease;
+    }
+    .shortcuts-panel.hidden { display: none; }
+    .shortcuts-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+    }
+    .shortcuts-header span { font-size: 0.85rem; font-weight: 600; color: #fff; }
+    .shortcuts-header button {
+      background: none; border: none; color: #55556a; cursor: pointer; font-size: 0.9rem; padding: 2px 4px;
+    }
+    .shortcuts-header button:hover { color: #e2e2e6; }
+    .shortcuts-list { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: center; }
+    .shortcuts-list dt { display: flex; gap: 4px; justify-content: flex-end; }
+    .shortcuts-list dd { font-size: 0.82rem; color: #aaaabc; }
+    kbd {
+      background: #2a2a36; border: 1px solid #3e3e52; border-radius: 5px;
+      color: #e2e2e6; font-family: inherit; font-size: 0.72rem; padding: 2px 6px; white-space: nowrap;
     }
   </style>
 </head>
@@ -603,6 +329,7 @@
   <div class="topbar">
     <input type="text" id="quickInput" placeholder="Titre d'une nouvelle tâche…" autocomplete="off" />
     <button class="btn-add" id="openModal">+ Nouvelle tâche</button>
+    <button class="btn-shortcuts" id="shortcutsBtn" title="Raccourcis (?)">⌨</button>
   </div>
 
   <div class="filters" id="filters">
@@ -612,6 +339,12 @@
     <button data-filter="haute">Haute</button>
     <button data-filter="normale">Normale</button>
     <button data-filter="basse">Basse</button>
+  </div>
+
+  <div class="sort-bar" id="sortBar">
+    <span>Trier :</span>
+    <button class="active" data-sort="date">Date ↓</button>
+    <button data-sort="priority">Priorité</button>
   </div>
 
   <div class="stats" id="stats"></div>
@@ -631,12 +364,10 @@
       <h2 id="modalTitle">Nouvelle tâche</h2>
       <button class="modal-close" id="modalClose">✕</button>
     </div>
-
     <div>
       <label for="mTitle">Titre</label>
       <input type="text" id="mTitle" placeholder="Titre de la tâche…" />
     </div>
-
     <div>
       <label for="mPriority">Priorité</label>
       <select id="mPriority">
@@ -645,12 +376,10 @@
         <option value="basse">Basse</option>
       </select>
     </div>
-
     <div>
       <label for="mDesc">Description</label>
       <textarea id="mDesc" placeholder="Détails, notes, liens…"></textarea>
     </div>
-
     <div>
       <label>Sous-tâches</label>
       <div class="subtask-add-row">
@@ -659,7 +388,6 @@
       </div>
       <div id="modalSubtasks"></div>
     </div>
-
     <div>
       <label>Images</label>
       <div class="upload-zone" id="uploadZone">
@@ -669,7 +397,6 @@
       <input type="file" id="imgInput" accept="image/*" multiple style="display:none" />
       <div class="modal-images" id="modalImages" style="margin-top:10px"></div>
     </div>
-
     <div class="modal-footer">
       <button class="btn-cancel" id="modalCancel">Annuler</button>
       <button class="btn-save" id="modalSave">Enregistrer</button>
@@ -682,46 +409,60 @@
   <img id="lightboxImg" src="" alt="" />
 </div>
 
-<script>
-  const STORAGE_KEY = 'todos_v2';
-  let todos = load();
-  let filter = 'toutes';
-  let editingId = null;        // null = création, number = édition
-  let modalImages = [];        // [{dataUrl, name}] en cours d'édition
-  let modalSubtasks = [];      // [{id, title, done, subtasks}] en cours d'édition (récursif)
-  let addingChildPath = null;  // chemin (string) où l'input inline est affiché, ou null
+<!-- Shortcuts panel -->
+<div class="shortcuts-panel hidden" id="shortcutsPanel">
+  <div class="shortcuts-header">
+    <span>Raccourcis clavier</span>
+    <button id="closeShortcutsBtn">✕</button>
+  </div>
+  <dl class="shortcuts-list">
+    <dt><kbd>n</kbd></dt>         <dd>Nouvelle tâche</dd>
+    <dt><kbd>/</kbd></dt>         <dd>Saisie rapide</dd>
+    <dt><kbd>p</kbd></dt>         <dd>Basculer tri date / priorité</dd>
+    <dt><kbd>1</kbd>–<kbd>6</kbd></dt><dd>Filtres (Toutes → Basse)</dd>
+    <dt><kbd>?</kbd></dt>         <dd>Afficher / masquer raccourcis</dd>
+    <dt><kbd>Échap</kbd></dt>     <dd>Fermer</dd>
+  </dl>
+</div>
 
-  /* ---- Storage ---- */
+<script>
+  /* ═══════════════════════════════════════
+     CONSTANTS
+  ═══════════════════════════════════════ */
+  const STORAGE_KEY    = 'todos_v2';
+  const PRIORITY_ORDER = { haute: 0, normale: 1, basse: 2 };
+  const FILTERS        = ['toutes', 'actives', 'terminées', 'haute', 'normale', 'basse'];
+
+  /* ═══════════════════════════════════════
+     STATE
+  ═══════════════════════════════════════ */
+  let todos           = load();
+  let filter          = 'toutes';
+  let sortBy          = 'date';      // 'date' | 'priority'
+  let editingId       = null;
+  let modalImages     = [];
+  let modalSubtasks   = [];
+  let addingChildPath = null;
+
+  /* ═══════════════════════════════════════
+     STORAGE
+  ═══════════════════════════════════════ */
   function load() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
     catch { return []; }
   }
   function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(todos)); }
 
-  /* ---- CRUD ---- */
+  /* ═══════════════════════════════════════
+     CRUD
+  ═══════════════════════════════════════ */
   function upsertTodo({ title, priority, description, images, subtasks }) {
     if (editingId !== null) {
       const t = todos.find(t => t.id === editingId);
-      if (t) { t.title = title; t.priority = priority; t.description = description; t.images = images; t.subtasks = subtasks; }
+      if (t) Object.assign(t, { title, priority, description, images, subtasks });
     } else {
       todos.unshift({ id: Date.now(), title, priority, description, images, subtasks, done: false, createdAt: new Date().toISOString() });
     }
-    save();
-    render();
-  }
-
-  function findAndToggleSubtask(subtasks, id) {
-    for (const s of subtasks) {
-      if (s.id === id) { s.done = !s.done; return true; }
-      if (s.subtasks && findAndToggleSubtask(s.subtasks, id)) return true;
-    }
-    return false;
-  }
-
-  function toggleSubtask(todoId, subtaskId) {
-    const t = todos.find(t => t.id === todoId);
-    if (!t || !t.subtasks) return;
-    findAndToggleSubtask(t.subtasks, subtaskId);
     save(); render();
   }
 
@@ -740,27 +481,66 @@
     save(); render();
   }
 
-  /* ---- Filter ---- */
-  function filtered() {
-    if (filter === 'actives')   return todos.filter(t => !t.done);
-    if (filter === 'terminées') return todos.filter(t => t.done);
-    if (['haute','normale','basse'].includes(filter)) return todos.filter(t => t.priority === filter);
-    return todos;
+  /* ═══════════════════════════════════════
+     SUBTASK TREE OPS (persisted data)
+  ═══════════════════════════════════════ */
+  function findAndToggleSubtask(subtasks, id) {
+    for (const s of subtasks) {
+      if (s.id === id) { s.done = !s.done; return true; }
+      if (s.subtasks?.length && findAndToggleSubtask(s.subtasks, id)) return true;
+    }
+    return false;
   }
 
-  /* ---- Modal ---- */
+  function toggleSubtask(todoId, subtaskId) {
+    const t = todos.find(t => t.id === todoId);
+    if (t?.subtasks) { findAndToggleSubtask(t.subtasks, subtaskId); save(); render(); }
+  }
+
+  /* ═══════════════════════════════════════
+     FILTER & SORT
+  ═══════════════════════════════════════ */
+  function getView() {
+    let list = todos;
+    if (filter === 'actives')              list = todos.filter(t => !t.done);
+    else if (filter === 'terminées')       list = todos.filter(t => t.done);
+    else if (PRIORITY_ORDER[filter] != null) list = todos.filter(t => t.priority === filter);
+
+    if (sortBy === 'priority') {
+      list = [...list].sort((a, b) =>
+        (PRIORITY_ORDER[a.priority] ?? 1) - (PRIORITY_ORDER[b.priority] ?? 1)
+      );
+    }
+    return list;
+  }
+
+  function setFilter(f) {
+    filter = f;
+    document.querySelectorAll('#filters button').forEach(b =>
+      b.classList.toggle('active', b.dataset.filter === f)
+    );
+    render();
+  }
+
+  function setSort(s) {
+    sortBy = s;
+    document.querySelectorAll('#sortBar button').forEach(b =>
+      b.classList.toggle('active', b.dataset.sort === s)
+    );
+    render();
+  }
+
+  /* ═══════════════════════════════════════
+     MODAL
+  ═══════════════════════════════════════ */
   function openModalNew(prefillTitle = '') {
-    editingId = null;
-    modalImages = [];
-    modalSubtasks = [];
-    addingChildPath = null;
+    editingId = null; modalImages = []; modalSubtasks = []; addingChildPath = null;
     document.getElementById('modalTitle').textContent = 'Nouvelle tâche';
-    document.getElementById('mTitle').value = prefillTitle;
-    document.getElementById('mPriority').value = 'normale';
-    document.getElementById('mDesc').value = '';
+    document.getElementById('mTitle').value      = prefillTitle;
+    document.getElementById('mPriority').value   = 'normale';
+    document.getElementById('mDesc').value       = '';
     document.getElementById('mSubtaskInput').value = '';
-    renderModalImages();
-    renderModalSubtasks();
+    renderModalImages(); renderModalSubtasks();
     document.getElementById('modalOverlay').classList.remove('hidden');
     document.getElementById('mTitle').focus();
   }
@@ -769,16 +549,15 @@
     const t = todos.find(t => t.id === id);
     if (!t) return;
     editingId = id;
-    modalImages = (t.images || []).map(i => ({ ...i }));
+    modalImages   = (t.images || []).map(i => ({ ...i }));
     modalSubtasks = JSON.parse(JSON.stringify(t.subtasks || []));
     addingChildPath = null;
     document.getElementById('modalTitle').textContent = 'Modifier la tâche';
-    document.getElementById('mTitle').value = t.title;
-    document.getElementById('mPriority').value = t.priority;
-    document.getElementById('mDesc').value = t.description || '';
+    document.getElementById('mTitle').value      = t.title;
+    document.getElementById('mPriority').value   = t.priority;
+    document.getElementById('mDesc').value       = t.description || '';
     document.getElementById('mSubtaskInput').value = '';
-    renderModalImages();
-    renderModalSubtasks();
+    renderModalImages(); renderModalSubtasks();
     document.getElementById('modalOverlay').classList.remove('hidden');
     document.getElementById('mTitle').focus();
   }
@@ -792,49 +571,48 @@
     if (!title) { document.getElementById('mTitle').focus(); return; }
     upsertTodo({
       title,
-      priority: document.getElementById('mPriority').value,
+      priority:    document.getElementById('mPriority').value,
       description: document.getElementById('mDesc').value.trim(),
-      images: [...modalImages],
-      subtasks: [...modalSubtasks]
+      images:      [...modalImages],
+      subtasks:    [...modalSubtasks],
     });
     closeModal();
   }
 
-  /* ---- Image helpers ---- */
+  /* ═══════════════════════════════════════
+     IMAGES
+  ═══════════════════════════════════════ */
   function addImageFiles(files) {
     Array.from(files).forEach(file => {
       if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
-      reader.onload = e => {
-        modalImages.push({ dataUrl: e.target.result, name: file.name });
-        renderModalImages();
-      };
+      reader.onload = e => { modalImages.push({ dataUrl: e.target.result, name: file.name }); renderModalImages(); };
       reader.readAsDataURL(file);
     });
   }
 
   function renderModalImages() {
-    const el = document.getElementById('modalImages');
-    el.innerHTML = modalImages.map((img, i) => `
+    document.getElementById('modalImages').innerHTML = modalImages.map((img, i) => `
       <div class="modal-img-wrap">
         <img src="${img.dataUrl}" alt="${esc(img.name)}" />
-        <button onclick="removeModalImage(${i})" title="Supprimer">✕</button>
-      </div>
-    `).join('');
+        <button data-action="remove-modal-img" data-idx="${i}">✕</button>
+      </div>`).join('');
   }
 
-  function removeModalImage(idx) {
-    modalImages.splice(idx, 1);
-    renderModalImages();
+  function removeImg(todoId, imgIdx) {
+    const t = todos.find(t => t.id === todoId);
+    if (t?.images) { t.images.splice(imgIdx, 1); save(); render(); }
   }
 
-  /* ---- Subtask helpers ---- */
+  /* ═══════════════════════════════════════
+     SUBTASK MODAL HELPERS
+  ═══════════════════════════════════════ */
   function pathFromStr(str) {
     return str === '' ? [] : str.split(',').map(Number);
   }
 
   function getChildList(subtasks, path) {
-    if (path.length === 0) return subtasks;
+    if (!path.length) return subtasks;
     let node = subtasks[path[0]];
     for (let i = 1; i < path.length; i++) {
       if (!node.subtasks) node.subtasks = [];
@@ -849,269 +627,279 @@
     const title = input.value.trim();
     if (!title) { input.focus(); return; }
     modalSubtasks.push({ id: Date.now() + modalSubtasks.length, title, done: false, subtasks: [] });
-    input.value = '';
-    input.focus();
-    renderModalSubtasks();
+    input.value = ''; input.focus(); renderModalSubtasks();
   }
 
   function startAddingChild(pathStr) {
-    addingChildPath = pathStr;
-    renderModalSubtasks();
+    addingChildPath = pathStr; renderModalSubtasks();
     const inputId = 'mStAdd-' + pathStr.replace(/,/g, '_');
-    setTimeout(() => { const el = document.getElementById(inputId); if (el) el.focus(); }, 0);
+    setTimeout(() => document.getElementById(inputId)?.focus(), 0);
   }
 
-  function cancelAddingChild() {
-    addingChildPath = null;
-    renderModalSubtasks();
-  }
+  function cancelAddingChild() { addingChildPath = null; renderModalSubtasks(); }
 
   function addModalSubtaskAt(pathStr) {
     const inputId = 'mStAdd-' + pathStr.replace(/,/g, '_');
-    const input = document.getElementById(inputId);
-    if (!input) return;
-    const title = input.value.trim();
-    if (!title) { input.focus(); return; }
-    const path = pathFromStr(pathStr);
-    const list = getChildList(modalSubtasks, path);
-    list.push({ id: Date.now() + (Math.random() * 1000 | 0), title, done: false, subtasks: [] });
-    addingChildPath = null;
-    renderModalSubtasks();
+    const input   = document.getElementById(inputId);
+    const title   = input?.value.trim();
+    if (!title) { input?.focus(); return; }
+    getChildList(modalSubtasks, pathFromStr(pathStr)).push({
+      id: Date.now() + (Math.random() * 1000 | 0), title, done: false, subtasks: [],
+    });
+    addingChildPath = null; renderModalSubtasks();
   }
 
   function removeModalSubtask(pathStr) {
     const path = pathFromStr(pathStr);
-    const parentList = getChildList(modalSubtasks, path.slice(0, -1));
-    parentList.splice(path[path.length - 1], 1);
-    renderModalSubtasks();
+    const list = getChildList(modalSubtasks, path.slice(0, -1));
+    list.splice(path[path.length - 1], 1); renderModalSubtasks();
   }
 
   function toggleModalSubtask(pathStr) {
     const path = pathFromStr(pathStr);
-    const parentList = getChildList(modalSubtasks, path.slice(0, -1));
-    const node = parentList[path[path.length - 1]];
+    const list  = getChildList(modalSubtasks, path.slice(0, -1));
+    const node  = list[path[path.length - 1]];
     if (node) { node.done = !node.done; renderModalSubtasks(); }
   }
 
-  function renderModalSubtaskNodes(nodes, parentPathStr, depth) {
-    if (!nodes || !nodes.length) return '';
-    let html = '';
+  function renderModalSubtaskNodes(nodes, parentPath, depth) {
+    if (!nodes?.length) return '';
     const ml = depth * 16;
-    nodes.forEach((s, i) => {
-      const pathStr = parentPathStr === '' ? String(i) : parentPathStr + ',' + i;
-      html += `
+    return nodes.map((s, i) => {
+      const pathStr = parentPath ? `${parentPath},${i}` : String(i);
+      const inputId = 'mStAdd-' + pathStr.replace(/,/g, '_');
+      const addRow  = addingChildPath === pathStr ? `
+        <div class="modal-subtask-addinput" style="margin-left:${ml + 16}px">
+          <input type="text" id="${inputId}" placeholder="Nouvelle sous-tâche…"
+            data-action="add-subtask-input" data-path="${pathStr}" />
+          <button data-action="confirm-add-child" data-path="${pathStr}">+</button>
+          <button data-action="cancel-add-child">✕</button>
+        </div>` : '';
+      const children = s.subtasks?.length ? renderModalSubtaskNodes(s.subtasks, pathStr, depth + 1) : '';
+      return `
         <div class="modal-subtask-item ${s.done ? 'done' : ''}" style="margin-left:${ml}px">
-          <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleModalSubtask('${pathStr}')" />
+          <input type="checkbox" ${s.done ? 'checked' : ''} data-action="toggle-modal-subtask" data-path="${pathStr}" />
           <span>${esc(s.title)}</span>
-          <button class="btn-add-child" onclick="startAddingChild('${pathStr}')" title="Ajouter une sous-tâche">⊕</button>
-          <button onclick="removeModalSubtask('${pathStr}')" title="Supprimer">✕</button>
-        </div>`;
-      if (addingChildPath === pathStr) {
-        const inputId = 'mStAdd-' + pathStr.replace(/,/g, '_');
-        html += `
-          <div class="modal-subtask-addinput" style="margin-left:${ml + 16}px">
-            <input type="text" id="${inputId}" placeholder="Nouvelle sous-tâche…"
-              onkeydown="if(event.key==='Enter'){event.preventDefault();addModalSubtaskAt('${pathStr}');}if(event.key==='Escape'){cancelAddingChild();}" />
-            <button onclick="addModalSubtaskAt('${pathStr}')">+</button>
-            <button onclick="cancelAddingChild()">✕</button>
-          </div>`;
-      }
-      if (s.subtasks && s.subtasks.length) {
-        html += renderModalSubtaskNodes(s.subtasks, pathStr, depth + 1);
-      }
-    });
-    return html;
+          <button class="btn-add-child" data-action="start-add-child" data-path="${pathStr}" title="Ajouter une sous-tâche">⊕</button>
+          <button class="btn-remove" data-action="remove-modal-subtask" data-path="${pathStr}" title="Supprimer">✕</button>
+        </div>
+        ${addRow}${children}`;
+    }).join('');
   }
 
   function renderModalSubtasks() {
     document.getElementById('modalSubtasks').innerHTML = renderModalSubtaskNodes(modalSubtasks, '', 0);
   }
 
-  /* ---- Render helpers ---- */
-  function countSubtasksRec(subtasks) {
-    if (!subtasks || !subtasks.length) return { total: 0, done: 0 };
-    let total = 0, done = 0;
-    for (const s of subtasks) {
-      total++;
-      if (s.done) done++;
-      const c = countSubtasksRec(s.subtasks);
-      total += c.total;
-      done += c.done;
-    }
-    return { total, done };
+  /* ═══════════════════════════════════════
+     RENDER HELPERS
+  ═══════════════════════════════════════ */
+  function esc(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  function renderSubtaskNodes(nodes, todoId, depth) {
-    if (!nodes || !nodes.length) return '';
-    const ml = depth > 0 ? ` style="margin-left:14px"` : '';
-    return `<div class="card-subtasks"${ml}>${nodes.map(s => `
-      <label class="subtask-row ${s.done ? 'done' : ''}">
-        <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleSubtask(${todoId}, ${s.id})" onclick="event.stopPropagation()" />
-        <span>${esc(s.title)}</span>
-      </label>
-      ${s.subtasks && s.subtasks.length ? renderSubtaskNodes(s.subtasks, todoId, depth + 1) : ''}
-    `).join('')}</div>`;
-  }
-
-  /* ---- Render ---- */
   function formatDate(iso) {
     return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
   }
 
-  function esc(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function countSubtasksRec(subtasks) {
+    if (!subtasks?.length) return { total: 0, done: 0 };
+    return subtasks.reduce((acc, s) => {
+      acc.total++;
+      if (s.done) acc.done++;
+      const c = countSubtasksRec(s.subtasks);
+      acc.total += c.total; acc.done += c.done;
+      return acc;
+    }, { total: 0, done: 0 });
   }
 
+  function renderSubtaskNodes(nodes, todoId, depth) {
+    if (!nodes?.length) return '';
+    const ml = depth > 0 ? ` style="margin-left:14px"` : '';
+    return `<div class="card-subtasks"${ml}>${nodes.map(s => `
+      <label class="subtask-row ${s.done ? 'done' : ''}">
+        <input type="checkbox" ${s.done ? 'checked' : ''}
+          data-action="toggle-subtask" data-todo-id="${todoId}" data-id="${s.id}" />
+        <span>${esc(s.title)}</span>
+      </label>
+      ${s.subtasks?.length ? renderSubtaskNodes(s.subtasks, todoId, depth + 1) : ''}`).join('')}
+    </div>`;
+  }
+
+  /* ═══════════════════════════════════════
+     RENDER
+  ═══════════════════════════════════════ */
   function render() {
-    const list = filtered();
-    const el = document.getElementById('todoList');
-    const stats = document.getElementById('stats');
+    const list = getView();
     const done = todos.filter(t => t.done).length;
 
-    stats.innerHTML = `<span>${todos.length} tâche${todos.length !== 1 ? 's' : ''} · ${done} terminée${done !== 1 ? 's' : ''}</span>`
-      + (done > 0 ? `<button onclick="clearDone()">Supprimer terminées</button>` : '');
+    document.getElementById('stats').innerHTML =
+      `<span>${todos.length} tâche${todos.length !== 1 ? 's' : ''} · ${done} terminée${done !== 1 ? 's' : ''}</span>` +
+      (done ? `<button data-action="clear-done">Supprimer terminées</button>` : '');
 
-    if (list.length === 0) {
-      el.innerHTML = '<div class="empty">Aucune tâche ici.</div>';
-      return;
-    }
+    const el = document.getElementById('todoList');
+    if (!list.length) { el.innerHTML = '<div class="empty">Aucune tâche ici.</div>'; return; }
 
     el.innerHTML = list.map(t => {
-      const hasDesc  = t.description && t.description.trim();
-      const hasImgs  = t.images && t.images.length > 0;
-      const hasSubs  = t.subtasks && t.subtasks.length > 0;
+      const hasDesc  = !!t.description?.trim();
+      const hasImgs  = !!t.images?.length;
+      const hasSubs  = !!t.subtasks?.length;
       const hasExtra = hasDesc || hasImgs || hasSubs;
       const subCount = hasSubs ? countSubtasksRec(t.subtasks) : { total: 0, done: 0 };
 
-      const hintsHTML = hasExtra ? `
-        <span class="extras-hint">
-          ${hasDesc  ? `<span title="Description">📝</span>` : ''}
-          ${hasSubs  ? `<span title="${subCount.done}/${subCount.total} sous-tâches">${subCount.done}/${subCount.total} ✓</span>` : ''}
-          ${hasImgs  ? `<span title="${t.images.length} image${t.images.length>1?'s':''}">${t.images.length} 🖼</span>` : ''}
-        </span>` : '';
+      const hintsHTML = hasExtra ? `<span class="extras-hint">
+        ${hasDesc ? `<span title="Description">📝</span>` : ''}
+        ${hasSubs ? `<span title="${subCount.done}/${subCount.total} sous-tâches">${subCount.done}/${subCount.total} ✓</span>` : ''}
+        ${hasImgs ? `<span title="${t.images.length} image${t.images.length > 1 ? 's' : ''}">${t.images.length} 🖼</span>` : ''}
+      </span>` : '';
 
-      const bodyHTML = hasExtra ? `
-        <div class="card-body">
-          ${hasDesc ? `<p class="description">${esc(t.description)}</p>` : ''}
-          ${hasSubs ? renderSubtaskNodes(t.subtasks, t.id, 0) : ''}
-          ${hasImgs ? `<div class="images-grid">${t.images.map((img,i) => `
-            <div class="img-wrapper">
-              <img src="${img.dataUrl}" alt="${esc(img.name)}" onclick="openLightbox('${esc(img.dataUrl)}')" />
-              <button class="img-remove" onclick="removeImg(${t.id},${i})" title="Supprimer">✕</button>
-            </div>`).join('')}
-          </div>` : ''}
-        </div>` : '';
+      const bodyHTML = hasExtra ? `<div class="card-body">
+        ${hasDesc ? `<p class="description">${esc(t.description)}</p>` : ''}
+        ${hasSubs ? renderSubtaskNodes(t.subtasks, t.id, 0) : ''}
+        ${hasImgs ? `<div class="images-grid">${t.images.map((img, i) => `
+          <div class="img-wrapper">
+            <img src="${img.dataUrl}" alt="${esc(img.name)}" data-action="lightbox" />
+            <button class="img-remove" data-action="remove-img" data-id="${t.id}" data-idx="${i}" title="Supprimer">✕</button>
+          </div>`).join('')}
+        </div>` : ''}
+      </div>` : '';
 
-      return `
-        <div class="todo-card ${t.done ? 'done' : ''}" id="card-${t.id}">
-          <div class="card-header" onclick="toggleExpand(${t.id}, event)">
-            <input type="checkbox" ${t.done ? 'checked' : ''} onclick="event.stopPropagation()" onchange="toggleTodo(${t.id})" />
-            <span class="card-title">${esc(t.title)}</span>
-            ${hintsHTML}
-            <span class="priority-badge ${t.priority}">${t.priority}</span>
-            <span class="card-date">${formatDate(t.createdAt)}</span>
-            <span class="card-icons">
-              <button class="icon-btn" onclick="event.stopPropagation(); openModalEdit(${t.id})" title="Modifier">✏️</button>
-              <button class="icon-btn delete" onclick="event.stopPropagation(); deleteTodo(${t.id})" title="Supprimer">✕</button>
-            </span>
-            ${hasExtra ? `<span class="expand-arrow">▼</span>` : ''}
-          </div>
-          ${bodyHTML}
-        </div>`;
+      return `<div class="todo-card ${t.done ? 'done' : ''}" id="card-${t.id}">
+        <div class="card-header" data-id="${t.id}">
+          <input type="checkbox" ${t.done ? 'checked' : ''}
+            data-action="toggle-todo" data-id="${t.id}" />
+          <span class="card-title">${esc(t.title)}</span>
+          ${hintsHTML}
+          <span class="priority-badge ${t.priority}">${t.priority}</span>
+          <span class="card-date">${formatDate(t.createdAt)}</span>
+          <span class="card-icons">
+            <button class="icon-btn" data-action="edit" data-id="${t.id}" title="Modifier">✏️</button>
+            <button class="icon-btn delete" data-action="delete" data-id="${t.id}" title="Supprimer">✕</button>
+          </span>
+          ${hasExtra ? '<span class="expand-arrow">▼</span>' : ''}
+        </div>
+        ${bodyHTML}
+      </div>`;
     }).join('');
   }
 
-  function toggleExpand(id, e) {
-    const card = document.getElementById('card-' + id);
-    if (!card.querySelector('.card-body')) return;
-    card.classList.toggle('expanded');
-  }
-
-  function removeImg(todoId, imgIdx) {
-    const t = todos.find(t => t.id === todoId);
-    if (t && t.images) { t.images.splice(imgIdx, 1); save(); render(); }
-  }
-
-  /* ---- Lightbox ---- */
-  function openLightbox(src) {
-    document.getElementById('lightboxImg').src = src;
-    document.getElementById('lightbox').classList.remove('hidden');
-  }
-
-  document.getElementById('lightbox').addEventListener('click', () => {
-    document.getElementById('lightbox').classList.add('hidden');
-  });
-
-  /* ---- Event bindings ---- */
-
-  // Quick input → pre-fill modal title on Enter
-  document.getElementById('quickInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      const val = e.target.value.trim();
-      e.target.value = '';
-      openModalNew(val);
+  /* ═══════════════════════════════════════
+     EVENT DELEGATION — todo list
+  ═══════════════════════════════════════ */
+  document.getElementById('todoList').addEventListener('click', e => {
+    if (e.target.matches('[data-action="lightbox"]')) {
+      document.getElementById('lightboxImg').src = e.target.src;
+      document.getElementById('lightbox').classList.remove('hidden');
+      return;
+    }
+    const btn = e.target.closest('[data-action]');
+    if (btn && btn.tagName !== 'INPUT') {
+      e.stopPropagation();
+      const { action, id, idx } = btn.dataset;
+      if (action === 'edit')       { openModalEdit(Number(id)); return; }
+      if (action === 'delete')     { deleteTodo(Number(id)); return; }
+      if (action === 'remove-img') { removeImg(Number(id), Number(idx)); return; }
+    }
+    const header = e.target.closest('.card-header');
+    if (header && !e.target.closest('[data-action]')) {
+      const card = document.getElementById('card-' + header.dataset.id);
+      if (card?.querySelector('.card-body')) card.classList.toggle('expanded');
     }
   });
 
+  document.getElementById('todoList').addEventListener('change', e => {
+    const { action, id, todoId } = e.target.dataset;
+    if (action === 'toggle-todo')    toggleTodo(Number(id));
+    if (action === 'toggle-subtask') { e.stopPropagation(); toggleSubtask(Number(todoId), Number(id)); }
+  });
+
+  document.getElementById('stats').addEventListener('click', e => {
+    if (e.target.dataset.action === 'clear-done') clearDone();
+  });
+
+  /* ═══════════════════════════════════════
+     EVENT DELEGATION — modal subtasks
+  ═══════════════════════════════════════ */
+  document.getElementById('modalSubtasks').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const { action, path } = btn.dataset;
+    if (action === 'start-add-child')      startAddingChild(path);
+    else if (action === 'remove-modal-subtask') removeModalSubtask(path);
+    else if (action === 'confirm-add-child')    addModalSubtaskAt(path);
+    else if (action === 'cancel-add-child')     cancelAddingChild();
+  });
+
+  document.getElementById('modalSubtasks').addEventListener('change', e => {
+    if (e.target.dataset.action === 'toggle-modal-subtask') toggleModalSubtask(e.target.dataset.path);
+  });
+
+  document.getElementById('modalSubtasks').addEventListener('keydown', e => {
+    if (e.target.dataset.action !== 'add-subtask-input') return;
+    if (e.key === 'Enter')  { e.preventDefault(); addModalSubtaskAt(e.target.dataset.path); }
+    if (e.key === 'Escape') cancelAddingChild();
+  });
+
+  document.getElementById('modalImages').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action="remove-modal-img"]');
+    if (btn) { modalImages.splice(Number(btn.dataset.idx), 1); renderModalImages(); }
+  });
+
+  /* ═══════════════════════════════════════
+     STATIC EVENT BINDINGS
+  ═══════════════════════════════════════ */
+  document.getElementById('quickInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { openModalNew(e.target.value.trim()); e.target.value = ''; }
+  });
   document.getElementById('openModal').addEventListener('click', () => {
-    const val = document.getElementById('quickInput').value.trim();
+    openModalNew(document.getElementById('quickInput').value.trim());
     document.getElementById('quickInput').value = '';
-    openModalNew(val);
   });
 
   document.getElementById('modalClose').addEventListener('click', closeModal);
   document.getElementById('modalCancel').addEventListener('click', closeModal);
   document.getElementById('modalSave').addEventListener('click', saveModal);
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  });
+
   document.getElementById('addSubtaskBtn').addEventListener('click', addModalSubtask);
   document.getElementById('mSubtaskInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); addModalSubtask(); }
   });
 
-  document.getElementById('modalOverlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('modalOverlay')) closeModal();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  // Image upload
   const uploadZone = document.getElementById('uploadZone');
   const imgInput   = document.getElementById('imgInput');
-
-  uploadZone.addEventListener('click',  () => imgInput.click());
-  imgInput.addEventListener('change',   e => addImageFiles(e.target.files));
-
+  uploadZone.addEventListener('click',     () => imgInput.click());
+  imgInput.addEventListener('change',      e => addImageFiles(e.target.files));
   uploadZone.addEventListener('dragover',  e => { e.preventDefault(); uploadZone.classList.add('drag'); });
   uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
   uploadZone.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadZone.classList.remove('drag');
-    addImageFiles(e.dataTransfer.files);
+    e.preventDefault(); uploadZone.classList.remove('drag'); addImageFiles(e.dataTransfer.files);
   });
 
-  // Filters
+  document.getElementById('lightbox').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.add('hidden');
+  });
+
   document.getElementById('filters').addEventListener('click', e => {
-    if (!e.target.dataset.filter) return;
-    filter = e.target.dataset.filter;
-    document.querySelectorAll('.filters button').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
-    render();
+    if (e.target.dataset.filter) setFilter(e.target.dataset.filter);
   });
 
-  // Export
+  document.getElementById('sortBar').addEventListener('click', e => {
+    if (e.target.dataset.sort) setSort(e.target.dataset.sort);
+  });
+
   document.getElementById('exportBtn').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(todos, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `todos_${new Date().toISOString().slice(0,10)}.json`;
+    a.download = `todos_${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
   });
-
-  // Import
   document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
   document.getElementById('importFile').addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
       try {
@@ -1120,10 +908,41 @@
         else alert('Format JSON invalide.');
       } catch { alert('Fichier JSON invalide.'); }
     };
-    reader.readAsText(file);
-    e.target.value = '';
+    reader.readAsText(file); e.target.value = '';
   });
 
+  document.getElementById('shortcutsBtn').addEventListener('click', () =>
+    document.getElementById('shortcutsPanel').classList.toggle('hidden')
+  );
+  document.getElementById('closeShortcutsBtn').addEventListener('click', () =>
+    document.getElementById('shortcutsPanel').classList.add('hidden')
+  );
+
+  /* ═══════════════════════════════════════
+     KEYBOARD SHORTCUTS
+  ═══════════════════════════════════════ */
+  document.addEventListener('keydown', e => {
+    const isModalOpen = !document.getElementById('modalOverlay').classList.contains('hidden');
+    const isTyping    = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+
+    if (e.key === 'Escape') {
+      if (isModalOpen) { closeModal(); return; }
+      document.getElementById('shortcutsPanel').classList.add('hidden');
+      return;
+    }
+
+    if (isModalOpen || isTyping) return;
+
+    if (e.key === 'n') { e.preventDefault(); openModalNew(); }
+    else if (e.key === '/') { e.preventDefault(); document.getElementById('quickInput').focus(); }
+    else if (e.key === '?') { document.getElementById('shortcutsPanel').classList.toggle('hidden'); }
+    else if (e.key === 'p') { setSort(sortBy === 'priority' ? 'date' : 'priority'); }
+    else if (e.key >= '1' && e.key <= '6') { setFilter(FILTERS[Number(e.key) - 1]); }
+  });
+
+  /* ═══════════════════════════════════════
+     INIT
+  ═══════════════════════════════════════ */
   render();
 </script>
 </body>
