@@ -533,6 +533,47 @@
       transition: color 0.15s;
     }
     .modal-subtask-item button:hover { color: #e05a5a; }
+    .btn-add-child {
+      background: none;
+      border: none;
+      color: #44445a;
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 2px 5px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .btn-add-child:hover { color: #7c6df5; }
+
+    .modal-subtask-addinput {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+    .modal-subtask-addinput input {
+      flex: 1;
+      background: #1c1c24;
+      border: 1px solid #3e3e52;
+      border-radius: 8px;
+      color: #e2e2e6;
+      font-family: inherit;
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      outline: none;
+    }
+    .modal-subtask-addinput input:focus { border-color: #7c6df5; }
+    .modal-subtask-addinput button {
+      background: none;
+      border: 1px solid #3e3e52;
+      border-radius: 6px;
+      color: #7c6df5;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 4px 8px;
+      transition: all 0.15s;
+    }
+    .modal-subtask-addinput button:hover { background: #7c6df5; color: #fff; border-color: #7c6df5; }
 
     /* Lightbox */
     .lightbox {
@@ -647,7 +688,8 @@
   let filter = 'toutes';
   let editingId = null;        // null = création, number = édition
   let modalImages = [];        // [{dataUrl, name}] en cours d'édition
-  let modalSubtasks = [];      // [{id, title, done}] en cours d'édition
+  let modalSubtasks = [];      // [{id, title, done, subtasks}] en cours d'édition (récursif)
+  let addingChildPath = null;  // chemin (string) où l'input inline est affiché, ou null
 
   /* ---- Storage ---- */
   function load() {
@@ -668,11 +710,19 @@
     render();
   }
 
+  function findAndToggleSubtask(subtasks, id) {
+    for (const s of subtasks) {
+      if (s.id === id) { s.done = !s.done; return true; }
+      if (s.subtasks && findAndToggleSubtask(s.subtasks, id)) return true;
+    }
+    return false;
+  }
+
   function toggleSubtask(todoId, subtaskId) {
     const t = todos.find(t => t.id === todoId);
     if (!t || !t.subtasks) return;
-    const s = t.subtasks.find(s => s.id === subtaskId);
-    if (s) { s.done = !s.done; save(); render(); }
+    findAndToggleSubtask(t.subtasks, subtaskId);
+    save(); render();
   }
 
   function toggleTodo(id) {
@@ -703,6 +753,7 @@
     editingId = null;
     modalImages = [];
     modalSubtasks = [];
+    addingChildPath = null;
     document.getElementById('modalTitle').textContent = 'Nouvelle tâche';
     document.getElementById('mTitle').value = prefillTitle;
     document.getElementById('mPriority').value = 'normale';
@@ -719,7 +770,8 @@
     if (!t) return;
     editingId = id;
     modalImages = (t.images || []).map(i => ({ ...i }));
-    modalSubtasks = (t.subtasks || []).map(s => ({ ...s }));
+    modalSubtasks = JSON.parse(JSON.stringify(t.subtasks || []));
+    addingChildPath = null;
     document.getElementById('modalTitle').textContent = 'Modifier la tâche';
     document.getElementById('mTitle').value = t.title;
     document.getElementById('mPriority').value = t.priority;
@@ -777,36 +829,128 @@
   }
 
   /* ---- Subtask helpers ---- */
+  function pathFromStr(str) {
+    return str === '' ? [] : str.split(',').map(Number);
+  }
+
+  function getChildList(subtasks, path) {
+    if (path.length === 0) return subtasks;
+    let node = subtasks[path[0]];
+    for (let i = 1; i < path.length; i++) {
+      if (!node.subtasks) node.subtasks = [];
+      node = node.subtasks[path[i]];
+    }
+    if (!node.subtasks) node.subtasks = [];
+    return node.subtasks;
+  }
+
   function addModalSubtask() {
     const input = document.getElementById('mSubtaskInput');
     const title = input.value.trim();
     if (!title) { input.focus(); return; }
-    modalSubtasks.push({ id: Date.now() + modalSubtasks.length, title, done: false });
+    modalSubtasks.push({ id: Date.now() + modalSubtasks.length, title, done: false, subtasks: [] });
     input.value = '';
     input.focus();
     renderModalSubtasks();
   }
 
-  function removeModalSubtask(idx) {
-    modalSubtasks.splice(idx, 1);
+  function startAddingChild(pathStr) {
+    addingChildPath = pathStr;
+    renderModalSubtasks();
+    const inputId = 'mStAdd-' + pathStr.replace(/,/g, '_');
+    setTimeout(() => { const el = document.getElementById(inputId); if (el) el.focus(); }, 0);
+  }
+
+  function cancelAddingChild() {
+    addingChildPath = null;
     renderModalSubtasks();
   }
 
-  function toggleModalSubtask(idx) {
-    modalSubtasks[idx].done = !modalSubtasks[idx].done;
+  function addModalSubtaskAt(pathStr) {
+    const inputId = 'mStAdd-' + pathStr.replace(/,/g, '_');
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const title = input.value.trim();
+    if (!title) { input.focus(); return; }
+    const path = pathFromStr(pathStr);
+    const list = getChildList(modalSubtasks, path);
+    list.push({ id: Date.now() + (Math.random() * 1000 | 0), title, done: false, subtasks: [] });
+    addingChildPath = null;
     renderModalSubtasks();
+  }
+
+  function removeModalSubtask(pathStr) {
+    const path = pathFromStr(pathStr);
+    const parentList = getChildList(modalSubtasks, path.slice(0, -1));
+    parentList.splice(path[path.length - 1], 1);
+    renderModalSubtasks();
+  }
+
+  function toggleModalSubtask(pathStr) {
+    const path = pathFromStr(pathStr);
+    const parentList = getChildList(modalSubtasks, path.slice(0, -1));
+    const node = parentList[path[path.length - 1]];
+    if (node) { node.done = !node.done; renderModalSubtasks(); }
+  }
+
+  function renderModalSubtaskNodes(nodes, parentPathStr, depth) {
+    if (!nodes || !nodes.length) return '';
+    let html = '';
+    const ml = depth * 16;
+    nodes.forEach((s, i) => {
+      const pathStr = parentPathStr === '' ? String(i) : parentPathStr + ',' + i;
+      html += `
+        <div class="modal-subtask-item ${s.done ? 'done' : ''}" style="margin-left:${ml}px">
+          <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleModalSubtask('${pathStr}')" />
+          <span>${esc(s.title)}</span>
+          <button class="btn-add-child" onclick="startAddingChild('${pathStr}')" title="Ajouter une sous-tâche">⊕</button>
+          <button onclick="removeModalSubtask('${pathStr}')" title="Supprimer">✕</button>
+        </div>`;
+      if (addingChildPath === pathStr) {
+        const inputId = 'mStAdd-' + pathStr.replace(/,/g, '_');
+        html += `
+          <div class="modal-subtask-addinput" style="margin-left:${ml + 16}px">
+            <input type="text" id="${inputId}" placeholder="Nouvelle sous-tâche…"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();addModalSubtaskAt('${pathStr}');}if(event.key==='Escape'){cancelAddingChild();}" />
+            <button onclick="addModalSubtaskAt('${pathStr}')">+</button>
+            <button onclick="cancelAddingChild()">✕</button>
+          </div>`;
+      }
+      if (s.subtasks && s.subtasks.length) {
+        html += renderModalSubtaskNodes(s.subtasks, pathStr, depth + 1);
+      }
+    });
+    return html;
   }
 
   function renderModalSubtasks() {
-    const el = document.getElementById('modalSubtasks');
-    if (!modalSubtasks.length) { el.innerHTML = ''; return; }
-    el.innerHTML = `<ul class="modal-subtask-list">${modalSubtasks.map((s, i) => `
-      <li class="modal-subtask-item ${s.done ? 'done' : ''}">
-        <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleModalSubtask(${i})" />
+    document.getElementById('modalSubtasks').innerHTML = renderModalSubtaskNodes(modalSubtasks, '', 0);
+  }
+
+  /* ---- Render helpers ---- */
+  function countSubtasksRec(subtasks) {
+    if (!subtasks || !subtasks.length) return { total: 0, done: 0 };
+    let total = 0, done = 0;
+    for (const s of subtasks) {
+      total++;
+      if (s.done) done++;
+      const c = countSubtasksRec(s.subtasks);
+      total += c.total;
+      done += c.done;
+    }
+    return { total, done };
+  }
+
+  function renderSubtaskNodes(nodes, todoId, depth) {
+    if (!nodes || !nodes.length) return '';
+    const ml = depth > 0 ? ` style="margin-left:14px"` : '';
+    return `<div class="card-subtasks"${ml}>${nodes.map(s => `
+      <label class="subtask-row ${s.done ? 'done' : ''}">
+        <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleSubtask(${todoId}, ${s.id})" onclick="event.stopPropagation()" />
         <span>${esc(s.title)}</span>
-        <button onclick="removeModalSubtask(${i})" title="Supprimer">✕</button>
-      </li>`).join('')}
-    </ul>`;
+      </label>
+      ${s.subtasks && s.subtasks.length ? renderSubtaskNodes(s.subtasks, todoId, depth + 1) : ''}
+    `).join('')}</div>`;
   }
 
   /* ---- Render ---- */
@@ -837,24 +981,19 @@
       const hasImgs  = t.images && t.images.length > 0;
       const hasSubs  = t.subtasks && t.subtasks.length > 0;
       const hasExtra = hasDesc || hasImgs || hasSubs;
-      const subsDone = hasSubs ? t.subtasks.filter(s => s.done).length : 0;
+      const subCount = hasSubs ? countSubtasksRec(t.subtasks) : { total: 0, done: 0 };
 
       const hintsHTML = hasExtra ? `
         <span class="extras-hint">
           ${hasDesc  ? `<span title="Description">📝</span>` : ''}
-          ${hasSubs  ? `<span title="${subsDone}/${t.subtasks.length} sous-tâches">${subsDone}/${t.subtasks.length} ✓</span>` : ''}
+          ${hasSubs  ? `<span title="${subCount.done}/${subCount.total} sous-tâches">${subCount.done}/${subCount.total} ✓</span>` : ''}
           ${hasImgs  ? `<span title="${t.images.length} image${t.images.length>1?'s':''}">${t.images.length} 🖼</span>` : ''}
         </span>` : '';
 
       const bodyHTML = hasExtra ? `
         <div class="card-body">
           ${hasDesc ? `<p class="description">${esc(t.description)}</p>` : ''}
-          ${hasSubs ? `<div class="card-subtasks">${t.subtasks.map(s => `
-            <label class="subtask-row ${s.done ? 'done' : ''}">
-              <input type="checkbox" ${s.done ? 'checked' : ''} onchange="toggleSubtask(${t.id}, ${s.id})" onclick="event.stopPropagation()" />
-              <span>${esc(s.title)}</span>
-            </label>`).join('')}
-          </div>` : ''}
+          ${hasSubs ? renderSubtaskNodes(t.subtasks, t.id, 0) : ''}
           ${hasImgs ? `<div class="images-grid">${t.images.map((img,i) => `
             <div class="img-wrapper">
               <img src="${img.dataUrl}" alt="${esc(img.name)}" onclick="openLightbox('${esc(img.dataUrl)}')" />
